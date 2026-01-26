@@ -10,9 +10,7 @@ dotenv.config();
 
 /* ------------------ Config ------------------ */
 const ALLOWED_ORIGINS = new Set([
-  "http://192.168.0.99:3000", // dev
-  // "https://crcakesandbakes.co.uk",
-  // "https://www.crcakesandbakes.co.uk",
+  "https://crccakes-frontend-rkeshtto0-chelsea-gairs-projects.vercel.app",
 ]);
 
 const app = express();
@@ -35,9 +33,13 @@ app.use(
 if (!process.env.STRIPE_SECRET_KEY) throw new Error("Missing STRIPE_SECRET_KEY");
 if (!process.env.SUPABASE_URL) throw new Error("Missing SUPABASE_URL");
 if (!process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY");
+if (!process.env.SITE_URL) throw new Error("Missing SITE_URL");
+
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
 
 /* ------------------ Helpers ------------------ */
 function clampString(s, max) {
@@ -319,8 +321,8 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
-      success_url: `http://192.168.0.99:3000/success.html?orderId=${order.id}`,
-      cancel_url: "http://192.168.0.99:3000/cancel.html",
+      success_url: `${process.env.SITE_URL}/success.html?orderId=${order.id}`,
+      cancel_url: `${process.env.SITE_URL}/cancel.html`,
       client_reference_id: String(order.id),
 
       ...(isDelivery
@@ -363,4 +365,6 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`✅ Server running at http://192.168.0.99:${port}`));
+app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
+
