@@ -7,6 +7,11 @@ import rateLimit from "express-rate-limit";
 import crypto from "crypto";
 
 dotenv.config();
+console.log("ENV CHECK:", {
+  stripe: !!process.env.STRIPE_SECRET_KEY,
+  supabase: !!process.env.SUPABASE_URL,
+});
+
 
 /* ------------------ Config ------------------ */
 const ALLOWED_ORIGINS = new Set([
@@ -366,5 +371,6 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
 
 
