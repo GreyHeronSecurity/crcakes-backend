@@ -15,7 +15,8 @@ console.log("ENV CHECK:", {
 
 /* ------------------ Config ------------------ */
 const ALLOWED_ORIGINS = new Set([
-  "https://crccakes-frontend-rkeshtto0-chelsea-gairs-projects.vercel.app",
+  "https://www.crcakesandbakes.com",
+  "https://crcakesandbakes.com",
 ]);
 
 const app = express();
@@ -371,6 +372,7 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
 
 
 
