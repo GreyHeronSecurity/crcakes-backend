@@ -81,7 +81,7 @@ function generatePublicToken() {
   return crypto.randomBytes(16).toString("hex");
 }
 
-/* ------------------ Stripe Webhook (Step 4)
+/* ------------------ Stripe Webhook
    IMPORTANT: express.raw() and registered BEFORE express.json()
 --------------------------------------------------------------- */
 const webhookLimiter = rateLimit({
@@ -165,7 +165,7 @@ const checkoutLimiter = rateLimit({
 });
 
 /* ------------------ Token-protected order status ------------------
-   Client calls: GET /order/<id>?token=<public_token>
+   
 --------------------------------------------------------------- */
 app.get("/order/:id", async (req, res) => {
   try {
