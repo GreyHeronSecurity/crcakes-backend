@@ -20,7 +20,9 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 const app = express();
+app.set("trust proxy", 1);
 app.disable("x-powered-by");
+
 
 /* ------------------ CORS (locked) ------------------ */
 app.use(
@@ -376,6 +378,7 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
 
 
 
