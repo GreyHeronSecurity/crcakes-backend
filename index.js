@@ -170,7 +170,11 @@ const checkoutLimiter = rateLimit({
 app.get("/order/:id", async (req, res) => {
   try {
     const id = String(req.params.id || "").trim();
-    const token = clampString(req.query.token, 128);
+    // Accept token from either querystring (?token=) OR Authorization: Bearer <token>
+    const auth = String(req.headers.authorization || "");
+    const bearer = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
+    const token = clampString(req.query.token || bearer, 128);
+
 
     if (!isUUID(id)) return res.status(400).json({ error: "Invalid order id" });
     if (!token) return res.status(400).json({ error: "Missing token" });
@@ -372,6 +376,7 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
 
 
 
