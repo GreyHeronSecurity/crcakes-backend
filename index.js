@@ -7,6 +7,15 @@ import rateLimit from "express-rate-limit";
 import crypto from "crypto";
 
 dotenv.config();
+console.log("BOOT OK", new Date().toISOString());
+console.log("ENV CHECK 2:", {
+  stripe: !!process.env.STRIPE_SECRET_KEY,
+  supabaseUrl: !!process.env.SUPABASE_URL,
+  serviceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+  siteUrl: !!process.env.SITE_URL,
+  webhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+});
+
 console.log("ENV CHECK:", {
   stripe: !!process.env.STRIPE_SECRET_KEY,
   supabase: !!process.env.SUPABASE_URL,
@@ -378,6 +387,7 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
 
 
 
