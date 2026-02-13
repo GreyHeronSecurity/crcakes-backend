@@ -75,7 +75,7 @@ function isUUID(id) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 }
 
-// 32 hex chars (16 bytes) is plenty; you can bump to 32 bytes if you want
+
 function generatePublicToken() {
   return crypto.randomBytes(16).toString("hex");
 }
@@ -375,6 +375,7 @@ app.post("/create-checkout-session", checkoutLimiter, async (req, res) => {
 /* ------------------ Start ------------------ */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`✅ Server running on port ${port}`));
+
 
 
 
